@@ -85,7 +85,7 @@ app.put('/student', function (req, res) {
 });
  
  
-//  Delete user
+//  Delete 
 app.delete('/students', function (req, res) {
   
     let student_id = req.body.student_id;
