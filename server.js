@@ -57,11 +57,11 @@ app.post('/student', function (req, res) {
     let student_name = req.body.name;
     let student_email = req.body.email;
   
-    if (!student_name||student_email) {
+    if (!student_name||!student_email) {
         return res.status(400).send({  message: 'Please provide student name and email' });
     }
   
-    dbConn.query("UPDATE students_table (name,email) VALUES(?, ?)", [student_name,student_email], function (error, results, fields) {
+    dbConn.query("INSERT INTO students_table (name,email) VALUES(?, ?)", [student_name,student_email], function (error, results, fields) {
         if (error) throw error;
         return res.send({ error: false, data: results, message: 'user has been updated successfully.' });
     });
@@ -71,14 +71,16 @@ app.post('/student', function (req, res) {
 //  Update 
 app.put('/student', function (req, res) {
   
-    let student_id = req.body.student_id;
-    let user = req.body.user;
+   
+    let student_name = req.body.name;
+    let student_email = req.body.email;
   
-    if (!student_id || !user) {
-        return res.status(400).send({ error: user, message: 'Please provide student and id' });
+    if (!student_name||!student_email) {
+        return res.status(400).send({  message: 'Please provide student name and email' });
     }
   
-    dbConn.query("UPDATE students_table SET user = ? WHERE id = ?", [user, student_id], function (error, results, fields) {
+  
+    dbConn.query("UPDATE students_table SET name = ? WHERE email= ?", [student_name,student_email], function (error, results, fields) {
         if (error) throw error;
         return res.send({ error: false, data: results, message: 'user has been updated successfully.' });
     });
@@ -88,7 +90,7 @@ app.put('/student', function (req, res) {
 //  Delete 
 app.delete('/students', function (req, res) {
   
-    let student_id = req.body.student_id;
+    let student_id = req.body.id;
   
     if (!student_id) {
         return res.status(400).send({ error: true, message: 'Please provide id' });
